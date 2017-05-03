@@ -20,7 +20,7 @@ const requestTranscludeRequestHandler = (p, fn) => requestTransclude(p, fn)
   .then(d => (req, res, next) => {
     const ifNoneMatch = req.get('If-None-Match');
 
-    if (ifNoneMatch === d.etag) {
+    if (ifNoneMatch && ifNoneMatch.split(/,\s*/).some(etag => etag === d.etag)) {
       res.statusCode = 304;
       res.end();
     } else {
